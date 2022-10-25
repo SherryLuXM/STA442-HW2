@@ -1,10 +1,23 @@
+---
+title: "STA442_AS2"
+author: "Xiaoman Lu (1004081030)"
+date: "2022/10/25"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # STA442 Homework 2 Code
+```{r}
 library(nimble)
 library(quantreg)
+```
 
-
-# Question 3
-# part a
+## Question 3
+### part a
+```{r}
 set.seed(442)
 a <- rnorm(10000)
 x <- rexp(10000, rate = 1)
@@ -19,8 +32,10 @@ for (i in 1:10000){
 k <- seq(-6,6, by = 0.5)
 hist(z, prob = TRUE, main = " Q3(a)")
 lines(k,ddexp(k), col = "blue", lty = 1, lwd = 2)
+```
 
-# PART (b)
+### PART (b)
+```{r}
 set.seed(442)
 n <- 50
 cov_x <- runif(n, 0, 5)
@@ -41,19 +56,26 @@ for (i in 1:1000){
   df <- cbind(df, y)
 }
 df <- df[,2:1001]
+```
 
-# (b)(i)
+#### (b)(i)
+```{r}
 lm_mdl <- vector(mode = "list", length = 1000)
 for (i in 1:1000){
  lm_mdl[[i]] <- lm(df[,i]~ cov_x)
 }
-# (b)(ii)
+```
+
+#### (b)(ii)
+```{r}
 mad_mdl <- vector(mode = "list", length = 1000)
 for (i in 1:1000){
   mad_mdl[[i]] <- rq(df[,i]~ cov_x, tau = 0.5)
 }
+```
 
-# part (c)
+### part (c)
+```{r}
 mad_beta <- matrix(NA, nrow = 1000, ncol = 2)
 lm_beta <- matrix(NA, nrow = 1000, ncol = 2)
 for (i in 1:1000){
@@ -65,9 +87,13 @@ for (i in 1:1000){
 }
 summary(lm_beta[,2])
 summary(mad_beta[,2])
+```
 
-# Question 4
-# part a
+\newpage
+
+## Question 4
+### part a
+```{r}
 set.seed(442)
 theta <- 2
 tau <- 1
@@ -89,8 +115,12 @@ summary(avg_freq)
 summary(avg_baye)
 mean(avg_freq)
 mean(avg_baye)
+```
+From the results, bayesian estimator of $\mu$
 
-# part b
+
+### part b
+```{r}
 true_theta <- -3
 true_tau <- 2
 for (i in 1:10000){
@@ -107,12 +137,14 @@ summary(avg_freq)
 summary(avg_baye)
 mean(avg_freq)
 mean(avg_baye)
+```
 
 
+\newpage
 
-
-# Question 5
-# part b
+## Question 5
+### part b
+```{r}
 set.seed(442)
 n = 50
 p = 3
@@ -121,17 +153,24 @@ err <- rnorm(50, mean = 0, sd = sqrt(5))
 beta <- c(1,1,1)
 # assume beta_0 = 0
 y <- X %*% beta + err 
-# (i) F test 
+```
+
+#### (i) F test 
+```{r}
 fit1 <- lm(y ~ X)
 fstat = summary(fit)$fstatistic
 pvalue1 = pf(q = fstat[1], df1 = fstat[2], df2 = fstat[3], lower.tail = F)
 pvalue1
-# (ii) T test
+```
+#### (ii) T test
+```{r}
 z <- X[,1] + X[,2] + X[,3]
 fit2 <- lm(y ~ z)
 summary(fit2)$coefficients[2,4]
+```
 
-# part (c)
+### part (c)
+```{r}
 num <- 100
 pval_f <- numeric(num)
 pval_t <- numeric(num)
@@ -151,8 +190,10 @@ pow_f <- mean(pval_f < 0.05)
 pow_f
 pow_t <- mean(pval_t < 0.05)
 pow_t
+```
 
-# part (e)
+### part (e)
+```{r}
 set.seed(442)
 X = matrix(runif(n*p), ncol = p)
 for (i in 1:num){
@@ -167,3 +208,4 @@ for (i in 1:num){
 }
 pow <- mean(pval_f < 0.025|pval_t < 0.025)
 pow
+```
