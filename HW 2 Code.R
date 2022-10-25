@@ -136,8 +136,8 @@ num <- 100
 pval_f <- numeric(num)
 pval_t <- numeric(num)
 set.seed(442)
+X = matrix(runif(n*p), ncol = p)
 for (i in 1:num){
-  X = matrix(runif(n*p), ncol = p)
   err <- rnorm(50, mean = 0, sd = sqrt(5))
   y <- X %*% beta + err 
   z <- X[,1] + X[,2] + X[,3]
@@ -154,8 +154,8 @@ pow_t
 
 # part (e)
 set.seed(442)
+X = matrix(runif(n*p), ncol = p)
 for (i in 1:num){
-  X = matrix(runif(n*p), ncol = p)
   err <- rnorm(50, mean = 0, sd = sqrt(5))
   y <- X %*% beta + err 
   z <- X[,1] + X[,2] + X[,3]
